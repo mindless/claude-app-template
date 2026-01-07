@@ -80,29 +80,72 @@ A two-tier project documentation file:
 
 ## How to Use
 
-### 1. Clone or Copy to Your Project
+This template is designed to drop into any project. Most users add it to an existing codebase rather than starting fresh.
+
+### Adding to an Existing Project
+
+Copy the `.claude/` directory and `CLAUDE.md` to your project root:
 
 ```bash
-# Clone the template
-git clone https://github.com/mindless/claude-app-template.git my-project
+# From inside the template directory
+cp -r .claude /path/to/your/project/
+cp CLAUDE.md /path/to/your/project/
 
-# Or copy to an existing project
-cp -r claude-app-template/.claude /path/to/your/project/
-cp claude-app-template/CLAUDE.md /path/to/your/project/
+# Or from anywhere
+git clone https://github.com/mindless/claude-app-template.git /tmp/claude-template
+cp -r /tmp/claude-template/.claude /path/to/your/project/
+cp /tmp/claude-template/CLAUDE.md /path/to/your/project/
 ```
 
-### 2. Customize CLAUDE.md
+**What you're copying:**
+- `.claude/` — Skills, commands, and agents that extend Claude Code
+- `CLAUDE.md` — Project documentation template for Claude to read
+
+### Starting a New Project
+
+If you're starting fresh, clone the entire template and build from there:
+
+```bash
+git clone https://github.com/mindless/claude-app-template.git my-project
+cd my-project
+rm -rf .git && git init  # Start with a clean git history
+```
+
+### Customizing CLAUDE.md
 
 Open your `CLAUDE.md` and:
 
 1. Replace `[Project Name]` with your actual project name
-2. Update framework versions if different from defaults
-3. Review the Reference Patterns section:
+2. Update the technical stack to match your project (framework, language, styling, etc.)
+3. Update the file structure to reflect your actual directory layout
+4. Review the Reference Patterns section:
    - Keep patterns relevant to your project
    - Delete entire sections you don't need
    - Fill in placeholder values (colors, fonts, etc.)
 
-### 3. Verify Setup
+### Handling Conflicts
+
+**Already have a `CLAUDE.md`?**
+Merge the content. Keep your existing project-specific documentation and add any useful patterns from the template's Reference Patterns section.
+
+**Already have a `.claude/` directory?**
+Merge the directories. Your existing configurations take precedence. Copy only the skills, commands, or agents you want:
+
+```bash
+# Copy specific skills
+cp -r template/.claude/skills/create-plans.md your-project/.claude/skills/
+
+# Copy specific commands
+cp -r template/.claude/commands/create-plan.md your-project/.claude/commands/
+```
+
+**Want only specific features?**
+You don't need everything. Pick what's useful:
+- Just want planning? Copy `skills/create-plans.md` and `commands/create-plan.md`
+- Just want thinking models? Copy `commands/consider:*.md`
+- Just want meta-prompting? Copy the `create-prompt` and `run-prompt` skills and commands
+
+### Verify Setup
 
 Test that Claude Code recognizes your configuration:
 
