@@ -6,7 +6,37 @@ A reusable project template for Next.js applications, pre-configured with Claude
 
 With a tool like Claude Code, the default assumption is simple: anything is possible—and it's on you to act like it.
 
-That's the mindset these resources were built with.
+That's the mindset these resources were built with. But "anything is possible" doesn't mean "do anything randomly." The tools in this template encode specific principles about how to work effectively with AI—principles that emerge from treating AI-assisted development as a discipline rather than an improvisation.
+
+### Metaprompting as a Discipline
+
+**Prompts are code.** A prompt isn't throwaway text you type and forget—it's a software artifact. It should be versioned, tested, iterated, and refined like any other piece of your codebase. That's why `/create-prompt` exists: because prompts deserve the same lifecycle management as the code they help produce.
+
+**Claude-to-Claude pipelines.** A single prompt rarely captures a complete workflow. Instead, prompts can generate structured outputs that become inputs for other prompts. The canonical pattern is: research fills knowledge gaps and produces `research.md`, planning consumes that research and produces `PLAN.md`, execution follows the plan. Each stage creates artifacts the next stage parses. This is why `/create-meta-prompt` includes dependency detection—it's designed for chained workflows where outputs flow into inputs.
+
+**Context isolation matters.** Fresh contexts prevent accumulated confusion. When prompts run via `/run-prompt`, each agent operates in its own git worktree. This enables safe parallel execution (multiple prompts can run simultaneously without merge conflicts), clean atomic merges back to main, and prevents context pollution between unrelated tasks. Isolation isn't overhead—it's what makes complex workflows reliable.
+
+### Why Hierarchical Planning
+
+The template uses a BRIEF, ROADMAP, PLAN, Execute flow. Here's why:
+
+**PLAN.md is the prompt.** A plan file isn't documentation for humans to skim—it's the executable instruction set Claude will follow. When you write a PLAN.md, you're writing a prompt for future Claude instances. This reframes planning: the quality of your plan directly determines the quality of execution.
+
+**Progressive refinement, not big design up front.** A Brief captures intent without overspecifying. A Roadmap structures that intent into phases. Research fills knowledge gaps for the current phase. A PLAN provides executable steps with verification criteria. Each layer adds specificity without losing the big picture. You don't need perfect foresight—you refine as you go.
+
+**Why not just start coding?** Because Claude works best with clear, scoped objectives. A well-structured plan prevents scope creep mid-task, ensures nothing is forgotten between sessions, and makes handoffs seamless when you hit context limits. The upfront investment in planning pays dividends in execution quality. See the Create Plans skill for the full workflow.
+
+### Skills, Commands, and Agents
+
+The template separates these three concepts deliberately:
+
+**Skills** are domain knowledge and workflows—the "how." A skill teaches Claude how to accomplish something: how to create plans, how to debug systematically, how to generate other skills. Skills contain the methodology.
+
+**Commands** are entry points and shortcuts—the "trigger." A command is a convenient way to invoke a skill or workflow. `/create-plan` is easier to type than explaining what you want. Commands are the user interface to skills.
+
+**Agents** are isolated execution contexts—the "where." When a task needs to run without polluting your main context, an agent provides a clean environment with its own system prompt and tool access. Agents are the containers that skills run inside.
+
+This separation lets you mix and match: invoke skills directly, trigger them via commands, or orchestrate them through agents—depending on what the task requires.
 
 ## What's Included
 
